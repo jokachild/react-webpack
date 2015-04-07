@@ -13,10 +13,12 @@ var Root = React.createClass({
     },
 
     componentDidMount: function () {
+        window.addEventListener("hashchange", this.onHashChange);
         EA.on("navigate", this.navigate);
     },
 
     componentWillUnmount: function () {
+        window.removeEventListener("hashchange", this.onHashChange);
         EA.removeListener("navigate", this.navigate);
     },
 
@@ -103,6 +105,7 @@ var Root = React.createClass({
     },
 
     navigate: function (menuItem) {
+        location.hash = menuItem;
         this.setState({
             selectedMenuItem: menuItem
         });
@@ -111,6 +114,10 @@ var Root = React.createClass({
     handleMenuClick: function (menuItem, e) {
         e.preventDefault();
         this.navigate(menuItem);
+    },
+
+    onHashChange: function () {
+        this.navigate(location.hash.slice(1));
     }
 
 });
