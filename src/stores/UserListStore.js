@@ -1,6 +1,6 @@
 var _ = require("underscore");
 var EventEmitter = require("events").EventEmitter;
-var AppDispatcher = require("../dispatcher/AppDispatcher.js");
+var AppDispatcher = require("../common/AppDispatcher.js");
 var UserActions = require("../actions/UserActions").actionTypes;
 
 var UserList = function (componentId) {

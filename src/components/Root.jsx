@@ -1,5 +1,8 @@
+var _ = require("underscore");
 var React = require("react");
-var UserTable = require("./users/UserTable.jsx");
+
+var EA = require("../common/EventAggregator");
+var Dashboard = require("./dashboard/Dashboard.jsx");
 
 var Root = React.createClass({
 
@@ -9,23 +12,42 @@ var Root = React.createClass({
         };
     },
 
+    componentDidMount: function () {
+        EA.on("navigate", this.navigate);
+    },
+
+    componentWillUnmount: function () {
+        EA.removeListener("navigate", this.navigate);
+    },
+
     render: function() {
         var component;
 
         switch (this.state.selectedMenuItem) {
             case "dashboard":
                 component = (
-                    <UserTable key="userList" componentId="userList" />
+                    /*<UserTable key="userList" componentId="userList" />*/
+                    <Dashboard/>
                 );
                 break;
-            case "menuItem":
+            case "feedbacks":
                 component = (
-                    <div>Menu Item Content</div>
+                    <div>Feedbacks Content</div>
                 );
                 break;
-            case "menuItem2":
+            case "tasks":
                 component = (
-                    <div>Menu Item 2 Content</div>
+                    <div>Tasks Content</div>
+                );
+                break;
+            case "orders":
+                component = (
+                    <div>Orders Content</div>
+                );
+                break;
+            case "tickets":
+                component = (
+                    <div>Tickets Content</div>
                 );
                 break;
         }
@@ -56,13 +78,19 @@ var Root = React.createClass({
                     <div className="col-sm-3 col-md-2 sidebar">
                         <ul className="nav nav-sidebar">
                             <li className={this.state.selectedMenuItem === "dashboard" ? "active" : null}>
-                                <a href="#" onClick={this.handleMenuClick.bind(this, "dashboard")}>Dashboard</a>
+                                <a href="#" onClick={_.bind(this.handleMenuClick, this, "dashboard")}>Dashboard</a>
                             </li>
-                            <li className={this.state.selectedMenuItem === "menuItem" ? "active" : null}>
-                                <a href="#" onClick={this.handleMenuClick.bind(this, "menuItem")}>Menu Item</a>
+                            <li className={this.state.selectedMenuItem === "feedbacks" ? "active" : null}>
+                                <a href="#" onClick={_.bind(this.handleMenuClick, this, "feedbacks")}>Feedbacks</a>
                             </li>
-                            <li className={this.state.selectedMenuItem === "menuItem2" ? "active" : null}>
-                                <a href="#" onClick={this.handleMenuClick.bind(this, "menuItem2")}>Menu Item 2</a>
+                            <li className={this.state.selectedMenuItem === "tasks" ? "active" : null}>
+                                <a href="#" onClick={_.bind(this.handleMenuClick, this, "tasks")}>Tasks</a>
+                            </li>
+                            <li className={this.state.selectedMenuItem === "orders" ? "active" : null}>
+                                <a href="#" onClick={_.bind(this.handleMenuClick, this, "orders")}>Orders</a>
+                            </li>
+                            <li className={this.state.selectedMenuItem === "tickets" ? "active" : null}>
+                                <a href="#" onClick={_.bind(this.handleMenuClick, this, "tickets")}>Tickets</a>
                             </li>
                         </ul>
                     </div>
@@ -74,11 +102,15 @@ var Root = React.createClass({
         );
     },
 
-    handleMenuClick: function (menuItem, e) {
-        e.preventDefault();
+    navigate: function (menuItem) {
         this.setState({
             selectedMenuItem: menuItem
         });
+    },
+
+    handleMenuClick: function (menuItem, e) {
+        e.preventDefault();
+        this.navigate(menuItem);
     }
 
 });

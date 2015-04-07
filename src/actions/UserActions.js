@@ -1,4 +1,4 @@
-var AppDispatcher = require("../dispatcher/AppDispatcher");
+var AppDispatcher = require("../common/AppDispatcher");
 
 var UserActions = {
     
