@@ -2,7 +2,7 @@ var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var node_modules = path.resolve(__dirname, "node_modules");
-var pathToReact = path.resolve(node_modules, "react/dist/react.min.js");
+var pathToReact = path.resolve(node_modules, "react/dist/react-with-addons.min.js");
 
 module.exports = {
 
@@ -10,7 +10,7 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "bundle.js",
+        filename: "bundle.js", // bundle-[hash].js
         hash: true
     },
 

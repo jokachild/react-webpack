@@ -1,4 +1,4 @@
-var _ = require("underscore");
+var _ = require("lodash");
 var React = require("react");
 
 var EA = require("../common/EventAggregator");
@@ -13,6 +13,7 @@ var Root = React.createClass({
     },
 
     componentDidMount: function () {
+        this.navigate("dashboard");
         window.addEventListener("hashchange", this.onHashChange);
         EA.on("navigate", this.navigate);
     },
@@ -28,7 +29,6 @@ var Root = React.createClass({
         switch (this.state.selectedMenuItem) {
             case "dashboard":
                 component = (
-                    /*<UserTable key="userList" componentId="userList" />*/
                     <Dashboard/>
                 );
                 break;
