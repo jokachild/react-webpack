@@ -144,3 +144,7 @@ body {
 .aggregation .panel-heading .glyphicon {
     font-size: 5em;
 }
+
+.latest-orders .view-all-block {
+  line-height: 34px;
+}

@@ -22,11 +22,11 @@ var Dashboard = React.createClass({
                 {orderId: 10009, text: "Feedback...", score: 5, timestamp: 1428590987893}
             ],
             orders: [
-                {orderId: 10000, timestamp: 1428590077893, status: 1, amount: 280},
-                {orderId: 10001, timestamp: 1428590067893, status: 2, amount: 550},
-                {orderId: 10002, timestamp: 1428590057893, status: 3, amount: 1000},
-                {orderId: 10003, timestamp: 1428590047893, status: 4, amount: 150},
-                {orderId: 10000, timestamp: 1428590077893, status: 1, amount: 280}
+                {orderId: 10000, timestamp: 1428590077893, status: "pending", amount: 280},
+                {orderId: 10001, timestamp: 1428590067893, status: "processing", amount: 550},
+                {orderId: 10002, timestamp: 1428590057893, status: "shipped", amount: 1000},
+                {orderId: 10003, timestamp: 1428590047893, status: "delivered", amount: 150},
+                {orderId: 10000, timestamp: 1428590077893, status: "pending", amount: 280}
             ]
         };
     },
