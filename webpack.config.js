@@ -3,6 +3,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var node_modules = path.resolve(__dirname, "node_modules");
 var pathToReact = path.resolve(node_modules, "react/dist/react-with-addons.min.js");
+var pathToMoment = path.resolve(node_modules, "moment/min/moment.min.js");
 
 module.exports = {
 
@@ -16,7 +17,8 @@ module.exports = {
 
     resolve: {
         alias: {
-            "react": pathToReact
+            "react": pathToReact,
+            "moment": pathToMoment
         }
     },
 
@@ -35,7 +37,7 @@ module.exports = {
             
             { test: require.resolve("bootstrap/dist/js/bootstrap"), loader: "imports?jQuery=jquery" }
         ],
-        noParse: [pathToReact]
+        noParse: [pathToReact, pathToMoment]
     }
 
 };
