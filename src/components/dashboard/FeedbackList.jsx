@@ -37,8 +37,6 @@ var FeedbackList = React.createClass({
 
     getFeedbackRow: function (feedback) {
         var href = "#feedbacks/" + feedback.orderId;
-        var cx = React.addons.classSet;
-        // TODO show stars
         var stars = _.map(_.range(feedback.score), function () {
             return (
                 <span className="glyphicon glyphicon-star"></span>
@@ -50,7 +48,7 @@ var FeedbackList = React.createClass({
             );
         }, this);
         return (
-            <a href={href} className="list-group-item clearfix">
+            <a href={href} className="list-group-item clearfix" title={"Score: " + feedback.score}>
                 <div className="pull-left">{feedback.text}</div>
                 <div className="pull-right score">
                     {stars}

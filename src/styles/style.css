@@ -162,3 +162,21 @@ body {
 .latest-feedbacks .score {
   color: #f0ad4e;
 }
+
+.main-content-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.main-content-enter.main-content-enter-active {
+  opacity: 1;
+}
+
+.main-content-leave {
+  opacity: 1;
+  transition: opacity 0.01s ease-in;
+}
+
+.main-content-leave.main-content-leave-active {
+  opacity: 0.01;
+}

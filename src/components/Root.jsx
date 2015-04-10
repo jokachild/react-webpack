@@ -1,5 +1,6 @@
 var _ = require("lodash");
 var React = require("react");
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var EA = require("../common/EventAggregator");
 var Dashboard = require("./dashboard/Dashboard.jsx");
@@ -29,37 +30,37 @@ var Root = React.createClass({
         switch (this.state.selectedMenuItem) {
             case "dashboard":
                 component = (
-                    <Dashboard/>
+                    <Dashboard key="dashboard" />
                 );
                 break;
             case "feedbacks":
                 component = (
-                    <div>Feedbacks Content</div>
+                    <div key="feedbacks">Feedbacks Content</div>
                 );
                 break;
             case "tasks":
                 component = (
-                    <div>Tasks Content</div>
+                    <div key="tasks">Tasks Content</div>
                 );
                 break;
             case "orders":
                 component = (
-                    <div>Orders Content</div>
+                    <div key="orders">Orders Content</div>
                 );
                 break;
             case "tickets":
                 component = (
-                    <div>Tickets Content</div>
+                    <div key="tickets">Tickets Content</div>
                 );
                 break;
             case "profile":
                 component = (
-                    <div>Profile Content</div>
+                    <div key="profile">Profile Content</div>
                 );
                 break;
             case "logout":
                 component = (
-                    <div>Logout...</div>
+                    <div key="logout">Logout...</div>
                 );
                 break;
         }
@@ -107,7 +108,9 @@ var Root = React.createClass({
                         </ul>
                     </div>
                     <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        {component}
+                        <ReactCSSTransitionGroup transitionName="main-content">
+                            {component}
+                        </ReactCSSTransitionGroup>
                     </div>
                 </div>
             </div>
