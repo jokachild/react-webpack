@@ -1,12 +1,14 @@
 var _ = require("lodash");
 var React = require("react");
 
+var FEEDBACK_LIMIT = 10;
+
 var FeedbackList = React.createClass({
 
     render: function() {
-        var feedbacks = _.map(this.props.data, this.getFeedbackRow, this);
+        var feedbacks = _.map(this.getData(), this.getFeedbackRow, this);
         return (
-            <div className="panel panel-default">
+            <div className="panel panel-default latest-feedbacks">
                 <div className="panel-heading">
                     <span className="glyphicon glyphicon-comment"></span>
                     <span> Feedbacks</span>
@@ -26,19 +28,34 @@ var FeedbackList = React.createClass({
         );
     },
 
+    getData: function () {
+        var data = _.cloneDeep(this.props.data);
+        data = _.sortByOrder(data, ["timestamp"], [false]);
+        data = _.take(data, FEEDBACK_LIMIT);
+        return data;
+    },
+
     getFeedbackRow: function (feedback) {
         var href = "#feedbacks/" + feedback.orderId;
         var cx = React.addons.classSet;
         // TODO show stars
-        var scoreClass = cx({
-            "pull-right label label-success": feedback.score > 3,
-            "pull-right label label-warning": feedback.score === 3,
-            "pull-right label label-danger": feedback.score < 3
-        });
+        var stars = _.map(_.range(feedback.score), function () {
+            return (
+                <span className="glyphicon glyphicon-star"></span>
+            );
+        }, this);
+        var starsEmpty = _.map(_.range(5 - feedback.score), function () {
+            return (
+                <span className="glyphicon glyphicon-star-empty"></span>
+            );
+        }, this);
         return (
             <a href={href} className="list-group-item clearfix">
                 <div className="pull-left">{feedback.text}</div>
-                <div className={scoreClass}>{feedback.score}</div>
+                <div className="pull-right score">
+                    {stars}
+                    {starsEmpty}
+                </div>
             </a>
         );
     }

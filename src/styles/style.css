@@ -145,6 +145,20 @@ body {
     font-size: 5em;
 }
 
+
+.latest-orders .refresh {
+  cursor: pointer;
+}
+
+.latest-orders .filter-state-btn {
+  width: 110px;
+}
+
 .latest-orders .view-all-block {
   line-height: 34px;
+}
+
+
+.latest-feedbacks .score {
+  color: #f0ad4e;
 }

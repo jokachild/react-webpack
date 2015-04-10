@@ -52,6 +52,16 @@ var Root = React.createClass({
                     <div>Tickets Content</div>
                 );
                 break;
+            case "profile":
+                component = (
+                    <div>Profile Content</div>
+                );
+                break;
+            case "logout":
+                component = (
+                    <div>Logout...</div>
+                );
+                break;
         }
 
         return (
@@ -69,8 +79,8 @@ var Root = React.createClass({
                         </div>
                         <div id="navbar" className="navbar-collapse collapse">
                             <ul className="nav navbar-nav navbar-right">
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="#" onClick={_.bind(this.handleMenuClick, this, "profile")}>Profile</a></li>
+                                <li><a href="#" onClick={_.bind(this.handleMenuClick, this, "logout")}>Logout</a></li>
                             </ul>
                         </div>
                     </div>
