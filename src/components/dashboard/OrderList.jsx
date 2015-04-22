@@ -14,8 +14,6 @@ var OrderStatus = {
     DELIVERED: "delivered"
 };
 
-var ORDER_LIMIT = 10;
-
 var OrderList = React.createClass({
 
     mixins: [
@@ -26,12 +24,20 @@ var OrderList = React.createClass({
     getInitialState: function() {
         return {
             orders: [],
-            orderStatus: null 
+            orderStatus: null,
+            loading: true
         };
     },
 
     render: function() {
-        var orderRows = _.map(this.state.orders, this.getOrderRow, this);
+        var loadingClass, orderRows;
+        if (this.state.loading) {
+            loadingClass = "loading";
+            orderRows = [];
+        } else {
+            loadingClass = "hide";
+            orderRows = _.map(this.state.orders, this.getOrderRow, this);
+        }
         return (
             <div className="panel panel-default latest-orders">
                 <div className="panel-heading">
@@ -55,6 +61,7 @@ var OrderList = React.createClass({
                             </tbody>
                         </table>
                     </div>
+                    <div className={loadingClass}>Loading...</div>
                     <div className="clearfix">
                         <div className="pull-left">
                             {this.getStateFilter()}
@@ -120,13 +127,14 @@ var OrderList = React.createClass({
     },
 
     onRefresh: function () {
-        this.setState({
-            orders: []
-        });
-        OrderActions.requestData();
+        this.requestData();
     },
 
     requestData: function () {
+        this.setState({
+            loading: true,
+            orders: []
+        });
         OrderActions.requestData();
     },
 
@@ -136,13 +144,18 @@ var OrderList = React.createClass({
     },
 
     onDataReceived: function () {
+        var model = OrderStore.getModel();
         this.setState({
-            orders: OrderStore.orders.getData(),
-            orderStatus: OrderStore.orders.orderStatus
+            orders: model.getData(),
+            orderStatus: model.orderStatus,
+            loading: false
         });
     },
 
     onError: function (xhr) {
+        this.setState({
+            loading: false
+        });
         console.error(xhr);
     }
 

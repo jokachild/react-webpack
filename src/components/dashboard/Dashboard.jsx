@@ -8,19 +8,7 @@ var Dashboard = React.createClass({
 
     getInitialState: function () {
         return {
-            aggregations: {feedbacks: 26, tasks: 12, orders: 124, tickets: 13},
-            feedbacks: [
-                {orderId: 10000, text: "Feedback...", score: 5, timestamp: 1428590077893},
-                {orderId: 10001, text: "Feedback...", score: 2, timestamp: 1428590067893},
-                {orderId: 10002, text: "Feedback...", score: 3, timestamp: 1428590057893},
-                {orderId: 10003, text: "Feedback...", score: 5, timestamp: 1428590047893},
-                {orderId: 10004, text: "Feedback...", score: 4, timestamp: 1428590037893},
-                {orderId: 10005, text: "Feedback...", score: 3, timestamp: 1428590027893},
-                {orderId: 10006, text: "Feedback...", score: 1, timestamp: 1428590017893},
-                {orderId: 10007, text: "Feedback...", score: 4, timestamp: 1428590007893},
-                {orderId: 10008, text: "Feedback...", score: 2, timestamp: 1428590997893},
-                {orderId: 10009, text: "Feedback...", score: 5, timestamp: 1428590987893}
-            ]
+            aggregations: {feedbacks: 26, tasks: 12, orders: 124, tickets: 13}
         };
     },
 
@@ -31,10 +19,10 @@ var Dashboard = React.createClass({
                 <Aggregations data={this.state.aggregations} />
                 <div className="row">
                     <div className="col-sm-12 col-md-4">
-                        <FeedbackList data={this.state.feedbacks} />
+                        <FeedbackList/>
                     </div>
                     <div className="col-sm-12 col-md-4">
-                        <FeedbackChart data={this.state.feedbacks} />
+                        <FeedbackChart/>
                     </div>
                     <div className="col-sm-12 col-md-4">
                         <OrderList/>

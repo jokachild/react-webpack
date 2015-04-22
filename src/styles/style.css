@@ -146,7 +146,7 @@ body {
 }
 
 
-.latest-orders .refresh {
+.latest-feedbacks .refresh, .latest-orders .refresh {
   cursor: pointer;
 }
 
@@ -179,4 +179,9 @@ body {
 
 .main-content-leave.main-content-leave-active {
   opacity: 0.01;
+}
+
+.loading {
+  margin-bottom: 20px;
+  text-align: center;
 }

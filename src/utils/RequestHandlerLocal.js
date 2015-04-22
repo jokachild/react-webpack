@@ -1,5 +1,18 @@
 var _ = require("lodash");
 
+var feedbackData = [
+    {orderId: 10000, text: "Feedback...", score: 5, timestamp: 1428590077893},
+    {orderId: 10001, text: "Feedback...", score: 2, timestamp: 1428590067893},
+    {orderId: 10002, text: "Feedback...", score: 3, timestamp: 1428590057893},
+    {orderId: 10003, text: "Feedback...", score: 5, timestamp: 1428590047893},
+    {orderId: 10004, text: "Feedback...", score: 4, timestamp: 1428590037893},
+    {orderId: 10005, text: "Feedback...", score: 3, timestamp: 1428590027893},
+    {orderId: 10006, text: "Feedback...", score: 1, timestamp: 1428590017893},
+    {orderId: 10007, text: "Feedback...", score: 4, timestamp: 1428590007893},
+    {orderId: 10008, text: "Feedback...", score: 2, timestamp: 1428590997893},
+    {orderId: 10009, text: "Feedback...", score: 5, timestamp: 1428590987893}
+];
+
 var ordersData = [
     {orderId: 10000, timestamp: 1428511077893, status: "pending", amount: 280},
     {orderId: 10001, timestamp: 1428522077893, status: "processing", amount: 550},
@@ -16,6 +29,9 @@ var ordersData = [
 var request = function (url, data, success, error) {
     setTimeout(function () {
         switch (url) {
+            case "/feedbacks":
+                success(_.cloneDeep(feedbackData));
+                break;
             case "/orders":
                 success(_.cloneDeep(ordersData));
                 break;

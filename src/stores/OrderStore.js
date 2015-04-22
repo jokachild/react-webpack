@@ -15,7 +15,7 @@ Orders.prototype = {
 
     constructor: Orders,
 
-    getData: function (user) {
+    getData: function () {
         var data = _.cloneDeep(this.orders);
         if (this.orderStatus) {
             data = this.filter(data);
