@@ -46,7 +46,7 @@ var FeedbackList = React.createClass({
         this.setState({
             svgSize: this.getChartContainerWidth()
         });
-        this.resizeHandler = _.throttle(_.bind(this.onResize, this), 500);
+        this.resizeHandler = _.throttle(_.bind(this.onResize, this), 500, {leading: false});
         $(window).on("resize", this.resizeHandler);
     },
 
@@ -74,9 +74,12 @@ var FeedbackList = React.createClass({
     },
 
     onResize: function () {
-        this.setState({
-            svgSize: this.getChartContainerWidth()
-        });
+        var size = this.getChartContainerWidth();
+        if (size !== this.state.svgSize) {
+            this.setState({
+                svgSize: this.getChartContainerWidth()
+            });
+        }
     },
 
     getChartContainerWidth: function () {
