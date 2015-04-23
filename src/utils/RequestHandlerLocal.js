@@ -1,5 +1,7 @@
 var _ = require("lodash");
 
+var aggregationsData = {feedbacks: 26, tasks: 12, orders: 124, tickets: 13};
+
 var feedbackData = [
     {orderId: 10000, text: "Feedback...", score: 5, timestamp: 1428590077893},
     {orderId: 10001, text: "Feedback...", score: 2, timestamp: 1428590067893},
@@ -29,6 +31,9 @@ var ordersData = [
 var request = function (url, data, success, error) {
     setTimeout(function () {
         switch (url) {
+            case "/aggregations":
+                success(_.cloneDeep(aggregationsData));
+                break;
             case "/feedbacks":
                 success(_.cloneDeep(feedbackData));
                 break;

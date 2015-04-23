@@ -3,6 +3,10 @@ var React = require("react");
 
 var EA = require("../../common/EventAggregator");
 
+var DataMixins = require("../../mixins/DataMixins");
+var AggregationActions = require("../../actions/AggregationActions");
+var AggregationStore = require("../../stores/AggregationStore");
+
 var Definitions = {
     feedbacks: {
         target: "feedbacks",
@@ -32,8 +36,19 @@ var Definitions = {
 
 var Aggregations = React.createClass({
 
+    mixins: [
+        DataMixins.dataRequest,
+        DataMixins.eventSubscription(AggregationStore)
+    ],
+
+    getInitialState: function () {
+        return {
+            aggregations: {feedbacks: 0, tasks: 0, orders: 0, tickets: 0}
+        };
+    },
+
     render: function() {
-        var aggregations = _.map(_.keys(this.props.data), this.generateAggregationBlock, this);
+        var aggregations = _.map(_.keys(this.state.aggregations), this.generateAggregationBlock, this);
         return (
             <div className="row">
                 {aggregations}
@@ -54,7 +69,7 @@ var Aggregations = React.createClass({
                                 <span className={iconClass}></span>
                             </div>
                             <div className="col-xs-9 text-right">
-                                <div className="huge">{this.props.data[key]}</div>
+                                <div className="huge">{this.state.aggregations[key]}</div>
                                 <div>{config.title}</div>
                             </div>
                         </div>
@@ -70,6 +85,20 @@ var Aggregations = React.createClass({
                 </div>
             </div>
         );
+    },
+
+    requestData: function () {
+        AggregationActions.requestData();
+    },
+
+    onDataReceived: function () {
+        this.setState({
+            aggregations: AggregationStore.getModel().getData()
+        });
+    },
+
+    onError: function (xhr) {
+        console.error(xhr);
     },
 
     handleDetailsClick: function (target, e) {

@@ -6,17 +6,11 @@ var OrderList = require("./OrderList.jsx");
 
 var Dashboard = React.createClass({
 
-    getInitialState: function () {
-        return {
-            aggregations: {feedbacks: 26, tasks: 12, orders: 124, tickets: 13}
-        };
-    },
-
     render: function() {
         return (
             <div className="container-fluid">
                 <h1 className="page-header">Dashboard</h1>
-                <Aggregations data={this.state.aggregations} />
+                <Aggregations/>
                 <div className="row">
                     <div className="col-sm-12 col-md-4">
                         <FeedbackList/>
