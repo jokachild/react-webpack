@@ -2,11 +2,9 @@ var _ = require("lodash");
 var React = require("react");
 var d3 = require("d3");
 
-var data = [{"age":"<5","population":"2704659"},{"age":"5-13","population":"4499890"},{"age":"14-17","population":"2159981"},{"age":"18-24","population":"3853788"},{"age":"25-44","population":"14106543"},{"age":"45-64","population":"8819342"},{"age":"≥65","population":"612463"}];
-
 var DonutChart = React.createClass({
 
-    colors: ["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"],
+    colors: ["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"],
 
     extraRadius: -10,
 
@@ -28,7 +26,7 @@ var DonutChart = React.createClass({
     drawChart: function (props) {
         var radius = Math.min(props.width, props.height) / 2,
             colors = d3.scale.ordinal().range(this.colors),
-            pie = d3.layout.pie().sort(null).value(function (d) { return d.population; });
+            pie = d3.layout.pie().sort(null).value(function (d) { return d.value; });
 
         this.arc = d3.svg.arc().outerRadius(_.bind(function () {
             return radius + this.extraRadius;
@@ -41,13 +39,17 @@ var DonutChart = React.createClass({
 
         var gM = this.svg.append("g")
             .attr("transform", "translate(" + props.width / 2 + ", " + props.height / 2 + ")");
-        
-        _.forEach(data, function (d) {
-            d.population = +d.population;
-        });
 
+        this.hint = gM.append("text")
+            .attr("dy", ".35em")
+            .style({
+                "text-anchor": "middle",
+                "font-weight": "bold",
+                "font-size": "2em"
+            });
+        
         var g = gM.selectAll(".arc")
-            .data(pie(data))
+            .data(pie(props.data))
             .enter()
             .append("g")
             .attr("class", "arc");
@@ -55,23 +57,11 @@ var DonutChart = React.createClass({
         g.append("path")
             .attr("d", this.arc)
             .style("fill", function (d) {
-                return colors(d.data.age);
+                return colors(d.data.key);
             })
+            .style("stroke", "#fff")
             .on("mouseover", this.mouseover)
             .on("mouseout", this.mouseout);
-
-        /*g.append("text")
-            .attr("transform", function (d) {
-                return "translate(" + self.arc.centroid(d) + ")";
-            })
-            .attr("dy", ".35em")
-            .style({
-                "text-anchor": "middle",
-                "fill": "#fff"
-            })
-            .text(function (d) {
-                return d.data.age;
-            });*/
     },
 
     mouseover: function (dataNode) {
@@ -79,12 +69,13 @@ var DonutChart = React.createClass({
         this.extraRadius = 0;
         this.svg.selectAll("path")
             .filter(function(node) {
-                return node.data.age === dataNode.data.age;
+                return node.data.key === dataNode.data.key;
             })
             .transition()
             .duration(100)
             .attr("d", this.arc);
         this.extraRadius = -10;
+        this.hint.text("Score: " + dataNode.data.key);
     },
 
     mouseout: function (dataNode) {
@@ -92,6 +83,7 @@ var DonutChart = React.createClass({
             .transition()
             .duration(100)
             .attr("d", this.arc);
+        this.hint.text("");
     }
 
 });
