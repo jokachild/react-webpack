@@ -45,7 +45,7 @@ var DonutChart = React.createClass({
             .style({
                 "text-anchor": "middle",
                 "font-weight": "bold",
-                "font-size": "2em"
+                "font-size": "1.5em"
             });
         
         var g = gM.selectAll(".arc")

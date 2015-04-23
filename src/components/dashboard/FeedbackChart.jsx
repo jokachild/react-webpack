@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var React = require("react");
 var d3 = require("d3");
+var $ = require("jquery");
 
 var DataMixins = require("../../mixins/DataMixins");
 var FeedbackStore = require("../../stores/FeedbackStore");
@@ -14,6 +15,7 @@ var FeedbackList = React.createClass({
 
     getInitialState: function () {
         return {
+            svgSize: 300,
             chartData: []
         }
     },
@@ -26,8 +28,8 @@ var FeedbackList = React.createClass({
                     <span> Feedbacks Chart</span>
                 </div>
                 <div className="panel-body">
-                    <div className="chart">
-                        <DonutChart width={300} height={300} data={this.state.chartData} />
+                    <div className="chart" ref="chartContainer">
+                        <DonutChart width={this.state.svgSize} height={this.state.svgSize} data={this.state.chartData} />
                     </div>
                     <div className="text-right">
                         <a href="#feedbacks">
@@ -38,6 +40,18 @@ var FeedbackList = React.createClass({
                 </div>
             </div>
         );
+    },
+
+    componentDidMount: function () {
+        this.setState({
+            svgSize: this.getChartContainerWidth()
+        });
+        this.resizeHandler = _.throttle(_.bind(this.onResize, this), 500);
+        $(window).on("resize", this.resizeHandler);
+    },
+
+    componentWillUnmount: function() {
+        $(window).off("resize", this.resizeHandler);
     },
 
     onDataReceived: function () {
@@ -57,6 +71,17 @@ var FeedbackList = React.createClass({
     },
 
     onError: function (xhr) {
+    },
+
+    onResize: function () {
+        this.setState({
+            svgSize: this.getChartContainerWidth()
+        });
+    },
+
+    getChartContainerWidth: function () {
+        var containerWidth = $(this.refs.chartContainer.getDOMNode()).width();
+        return Math.floor(containerWidth * 0.75);
     }
 
 });
