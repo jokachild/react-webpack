@@ -163,6 +163,10 @@ body {
   color: #f0ad4e;
 }
 
+.feedback-chart .chart {
+  text-align: center;
+}
+
 .main-content-enter {
   opacity: 0.01;
   transition: opacity .5s ease-in;
