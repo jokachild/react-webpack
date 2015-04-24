@@ -1,4 +1,6 @@
 var _ = require("lodash");
+var moment = require("moment");
+
 var AppDispatcher = require("../common/AppDispatcher");
 var StoreBase = require("./StoreBase");
 var OrderActions = require("../actions/OrderActions").actionTypes;
@@ -20,9 +22,18 @@ Orders.prototype = {
         if (this.orderStatus) {
             data = this.filter(data);
         }
+        _.each(data, function (order) {
+            order.createTime = moment(order.timestamp).format("MM/DD/YYYY hh:mm");
+        }, this);
         data = _.sortByOrder(data, ["timestamp"], [false]);
         data = _.take(data, ORDER_LIMIT);
         return data;
+    },
+
+    getOrderById: function (orderId) {
+        return _.find(this.getData(), function (order) {
+            return order.orderId === orderId;
+        }, this);
     },
 
     filter: function (data) {
@@ -59,6 +70,11 @@ var OrderStore = _.extend({}, {
             break;
             case OrderActions.FILTER:
                 this.orders.setFilterValue(action.data.status);
+                this.emitChange();
+            break;
+            case OrderActions.SAVE:
+                console.log("Attempting to save order...");
+                console.log(action.data.order);
                 this.emitChange();
             break;
         }

@@ -5,7 +5,8 @@ var OrderActions = {
     actionTypes: {
         REQUEST_DATA: "REQUEST_ORDERS",
         FILTER: "FILTER_ORDERS",
-        SORT: "SORT_ORDERS"
+        SORT: "SORT_ORDERS",
+        SAVE: "SAVE_ORDER"
     },
 
     requestData: function () {
@@ -29,6 +30,15 @@ var OrderActions = {
             data: {
                 col: col,
                 dir: dir
+            }
+        });
+    },
+
+    save: function (order) {
+        AppDispatcher.dispatch({
+            actionType: this.actionTypes.SAVE,
+            data: {
+                order: order
             }
         });
     }

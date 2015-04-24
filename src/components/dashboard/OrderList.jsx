@@ -1,11 +1,12 @@
 var _ = require("lodash");
 var React = require("react");
 var cx = React.addons.classSet;
-var moment = require("moment");
 
 var DataMixins = require("../../mixins/DataMixins");
+var ModalMixins = require("../../mixins/ModalMixins");
 var OrderActions = require("../../actions/OrderActions");
 var OrderStore = require("../../stores/OrderStore");
+var OrderModal = require("./OrderModal.jsx");
 
 var OrderStatus = {
     PENDING: "pending",
@@ -18,7 +19,8 @@ var OrderList = React.createClass({
 
     mixins: [
         DataMixins.dataRequest,
-        DataMixins.eventSubscription(OrderStore)
+        DataMixins.eventSubscription(OrderStore),
+        ModalMixins.modalControl
     ],
 
     getInitialState: function() {
@@ -89,9 +91,9 @@ var OrderList = React.createClass({
         return (
             <tr>
                 <td>
-                    <a href={href}>{order.orderId}</a>
+                    <a href={href} title="Quick edit" onClick={_.bind(this.openEditDialog, this, order.orderId)}>{order.orderId}</a>
                 </td>
-                <td>{moment(order.timestamp).format("MM/DD/YYYY hh:mm")}</td>
+                <td>{order.createTime}</td>
                 <td>${order.amount}</td>
                 <td className="text-center">
                     <span className={statusClass}>{order.status}</span>
@@ -130,17 +132,22 @@ var OrderList = React.createClass({
         this.requestData();
     },
 
+    filterByStatus: function (status, e) {
+        e.preventDefault();
+        OrderActions.filter(status);
+    },
+
+    openEditDialog: function (orderId, e) {
+        e.preventDefault();
+        this.openModal(<OrderModal orderId={orderId} onClose={this.closeModal} />);
+    },
+
     requestData: function () {
         this.setState({
             loading: true,
             orders: []
         });
         OrderActions.requestData();
-    },
-
-    filterByStatus: function (status, e) {
-        e.preventDefault();
-        OrderActions.filter(status);
     },
 
     onDataReceived: function () {
