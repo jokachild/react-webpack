@@ -65,16 +65,16 @@ var OrderModal = React.createClass({
 
     componentWillMount: function() {
         this.setState({
-            order: OrderStore.getModel().getOrderById(this.props.orderId)
+            order: OrderStore.getModel().getOrder(this.props.orderId)
         });
     },
 
     onDataReceived: function () {
-        //
+        $(this.getDOMNode()).modal("hide");
     },
 
     onError: function (xhr) {
-        //
+        // report an error
     },
 
     onChangeStatus: function (e) {
@@ -97,7 +97,6 @@ var OrderModal = React.createClass({
 
     saveOrder: function () {
         OrderActions.save(this.state.order);
-        $(this.getDOMNode()).modal("hide");
     }
 
 });

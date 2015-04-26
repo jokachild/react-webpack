@@ -32,10 +32,10 @@ Feedbacks.prototype = {
 
 var FeedbackStore = _.extend({}, {
 
-    feedbacks: new Feedbacks(),
+    model: new Feedbacks(),
 
     getModel: function () {
-        return this.feedbacks;
+        return this.model;
     },
 
     dispatchRegister: function (action) {

@@ -28,17 +28,24 @@ var ordersData = [
     {orderId: 10009, timestamp: 1428500077893, status: "processing", amount: 50}
 ];
 
-var request = function (url, data, success, error) {
+var request = function (type, url, data, success, error) {
     setTimeout(function () {
-        switch (url) {
-            case "/aggregations":
+        switch (true) {
+            case url === "/aggregations":
                 success(_.cloneDeep(aggregationsData));
                 break;
-            case "/feedbacks":
+            case url === "/feedbacks":
                 success(_.cloneDeep(feedbackData));
                 break;
-            case "/orders":
+            case url === "/orders":
                 success(_.cloneDeep(ordersData));
+                break;
+            case !!url.match(/\/orders\/\d+/).length:
+                var order = _.find(ordersData, function (order) {
+                    return order.orderId === data.orderId;
+                }, this);
+                _.extend(order, data);
+                success(order);
                 break;
         }
     }, 1000);

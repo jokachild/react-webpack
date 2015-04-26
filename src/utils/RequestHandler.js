@@ -1,8 +1,8 @@
 var $ = require("jquery");
 
-var request = function (url, data, success, error) {
+var request = function (type, url, data, success, error) {
     $.ajax({
-        type: "GET",
+        type: type,
         url: url,
         data: data,
         dataType: "json",

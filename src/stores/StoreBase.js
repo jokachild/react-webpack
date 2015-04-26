@@ -4,9 +4,9 @@ var RequestHandler = require("../utils/RequestHandlerLocal");
 
 var StoreBase = _.extend({}, EventEmitter.prototype, {
 
-    requestData: function (data, callback) {
+    getData: function (params, callback) {
         var model = this.getModel();
-        RequestHandler.request(model.url, data, function (data) {
+        RequestHandler.request("GET", model.url, params, function (data) {
             model.onDataReceived(data);
             callback();
         }, function (xhr) {
@@ -15,8 +15,29 @@ var StoreBase = _.extend({}, EventEmitter.prototype, {
         });
     },
 
-    handleRequestData: function (data) {
-        this.requestData(data, _.bind(function (error) {
+    putData: function (data, callback) {
+        var model = this.getModel();
+        RequestHandler.request("PUT", model.saveUrl(data), data, function (data) {
+            model.onDataSaved(data);
+            callback();
+        }, function (xhr) {
+            model.onError(xhr);
+            callback(xhr);
+        });
+    },
+
+    handleRequestData: function (params) {
+        this.getData(params, _.bind(function (error) {
+            if (error) {
+                this.emitFail(error);
+            } else {
+                this.emitChange();
+            }
+        }, this));
+    },
+
+    handleSaveData: function (data) {
+        this.putData(data, _.bind(function (error) {
             if (error) {
                 this.emitFail(error);
             } else {

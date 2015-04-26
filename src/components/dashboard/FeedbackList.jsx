@@ -99,7 +99,6 @@ var FeedbackList = React.createClass({
         this.setState({
             loading: false
         });
-        console.error(xhr);
     }
 
 });

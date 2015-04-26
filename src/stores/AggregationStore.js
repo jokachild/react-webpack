@@ -27,10 +27,10 @@ Aggregations.prototype = {
 
 var AggregationStore = _.extend({}, {
 
-    aggregations: new Aggregations(),
+    model: new Aggregations(),
 
     getModel: function () {
-        return this.aggregations;
+        return this.model;
     },
 
     dispatchRegister: function (action) {

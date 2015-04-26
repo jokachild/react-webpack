@@ -17,23 +17,32 @@ Orders.prototype = {
 
     constructor: Orders,
 
-    getData: function () {
+    getOrders: function () {
         var data = _.cloneDeep(this.orders);
         if (this.orderStatus) {
             data = this.filter(data);
         }
-        _.each(data, function (order) {
-            order.createTime = moment(order.timestamp).format("MM/DD/YYYY hh:mm");
-        }, this);
+        _.each(data, this.format, this);
         data = _.sortByOrder(data, ["timestamp"], [false]);
         data = _.take(data, ORDER_LIMIT);
         return data;
     },
 
-    getOrderById: function (orderId) {
-        return _.find(this.getData(), function (order) {
+    getOrder: function (orderId) {
+        var order = _.find(this.orders, function (order) {
             return order.orderId === orderId;
         }, this);
+        order = _.cloneDeep(order);
+        this.format(order);
+        return order;
+    },
+
+    saveUrl: function (order) {
+        return this.url + "/" + order.orderId;
+    },
+
+    format: function (order) {
+        order.createTime = moment(order.timestamp).format("MM/DD/YYYY hh:mm");
     },
 
     filter: function (data) {
@@ -50,6 +59,13 @@ Orders.prototype = {
         this.orders = orders;
     },
 
+    onDataSaved: function (updatedOrder) {
+        var order = _.find(this.orders, function (order) {
+            return order.orderId === updatedOrder.orderId;
+        }, this);
+        _.extend(order, updatedOrder);
+    },
+
     onError: function (xhr) {
         this.orders = [];
     }
@@ -57,10 +73,10 @@ Orders.prototype = {
 
 var OrderStore = _.extend({}, {
 
-    orders: new Orders(),
+    model: new Orders(),
 
     getModel: function () {
-        return this.orders;
+        return this.model;
     },
 
     dispatchRegister: function (action) {
@@ -69,13 +85,11 @@ var OrderStore = _.extend({}, {
                 this.handleRequestData(null);
             break;
             case OrderActions.FILTER:
-                this.orders.setFilterValue(action.data.status);
+                this.getModel().setFilterValue(action.data.status);
                 this.emitChange();
             break;
             case OrderActions.SAVE:
-                console.log("Attempting to save order...");
-                console.log(action.data.order);
-                this.emitChange();
+                this.handleSaveData(action.data.order);
             break;
         }
     }

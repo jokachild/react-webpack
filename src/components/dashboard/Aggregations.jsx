@@ -98,7 +98,6 @@ var Aggregations = React.createClass({
     },
 
     onError: function (xhr) {
-        console.error(xhr);
     },
 
     handleDetailsClick: function (target, e) {

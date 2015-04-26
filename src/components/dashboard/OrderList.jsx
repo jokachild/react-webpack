@@ -153,7 +153,7 @@ var OrderList = React.createClass({
     onDataReceived: function () {
         var model = OrderStore.getModel();
         this.setState({
-            orders: model.getData(),
+            orders: model.getOrders(),
             orderStatus: model.orderStatus,
             loading: false
         });
@@ -163,7 +163,6 @@ var OrderList = React.createClass({
         this.setState({
             loading: false
         });
-        console.error(xhr);
     }
 
 });
