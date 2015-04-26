@@ -14,7 +14,19 @@ var OrderModal = React.createClass({
         ModalMixins.modalRender
     ],
 
+    getInitialState: function () {
+        return {
+            btnLoading: false
+        };
+    },
+
     render: function() {
+        var saveBtn;
+        if (this.state.btnLoading) {
+            saveBtn = <button type="button" className="btn btn-primary disabled" onClick={this.saveOrder} disabled>Loading...</button>;
+        } else {
+            saveBtn = <button type="button" className="btn btn-primary" onClick={this.saveOrder}>Save</button>;
+        }
         return (
             <div className="modal fade">
                 <div className="modal-dialog">
@@ -55,7 +67,7 @@ var OrderModal = React.createClass({
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={this.saveOrder}>Save</button>
+                            {saveBtn}
                         </div>
                     </div>
                 </div>
@@ -70,11 +82,16 @@ var OrderModal = React.createClass({
     },
 
     onDataReceived: function () {
+        this.setState({
+            btnLoading: false
+        });
         $(this.getDOMNode()).modal("hide");
     },
 
     onError: function (xhr) {
-        // report an error
+        this.setState({
+            btnLoading: false
+        });
     },
 
     onChangeStatus: function (e) {
@@ -96,6 +113,9 @@ var OrderModal = React.createClass({
     },
 
     saveOrder: function () {
+        this.setState({
+            btnLoading: true
+        });
         OrderActions.save(this.state.order);
     }
 
