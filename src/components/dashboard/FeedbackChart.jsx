@@ -43,11 +43,13 @@ var FeedbackList = React.createClass({
     },
 
     componentDidMount: function () {
-        this.setState({
-            svgSize: this.getChartContainerWidth()
-        });
-        this.resizeHandler = _.throttle(_.bind(this.onResize, this), 500, {leading: false});
-        $(window).on("resize", this.resizeHandler);
+        setTimeout(_.bind(function () {
+            this.setState({
+                svgSize: this.getChartContainerWidth()
+            });
+            this.resizeHandler = _.throttle(_.bind(this.onResize, this), 500, {leading: false});
+            $(window).on("resize", this.resizeHandler);
+        }, this), 0);
     },
 
     componentWillUnmount: function() {
