@@ -1,12 +1,14 @@
 var _ = require("lodash");
+
 var AppDispatcher = require("../common/AppDispatcher");
 var StoreBase = require("./StoreBase");
+var API = require("./ApiConfig");
 var FeedbackActions = require("../actions/FeedbackActions").actionTypes;
 
 var FEEDBACK_LIMIT = 10;
 
 var Feedbacks = function () {
-    this.url = "/feedbacks"
+    this.url = API.FEEDBACKS;
     this.feedbacks = [];
 };
 

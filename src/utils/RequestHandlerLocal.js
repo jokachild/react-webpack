@@ -1,5 +1,7 @@
 var _ = require("lodash");
 
+var API = require("../stores/ApiConfig");
+
 var aggregationsData = {feedbacks: 26, tasks: 12, orders: 124, tickets: 13};
 
 var feedbackData = [
@@ -31,16 +33,16 @@ var ordersData = [
 var request = function (type, url, data, success, error) {
     setTimeout(function () {
         switch (true) {
-            case url === "/aggregations":
+            case url === API.AGGREGATIONS:
                 success(_.cloneDeep(aggregationsData));
                 break;
-            case url === "/feedbacks":
+            case url === API.FEEDBACKS:
                 success(_.cloneDeep(feedbackData));
                 break;
-            case url === "/orders":
+            case url === API.ORDERS:
                 success(_.cloneDeep(ordersData));
                 break;
-            case !!url.match(/\/orders\/\d+/).length:
+            case !!url.match(/\/api\/orders\/\d+/):
                 var order = _.find(ordersData, function (order) {
                     return order.orderId === data.orderId;
                 }, this);

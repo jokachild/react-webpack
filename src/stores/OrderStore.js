@@ -3,12 +3,13 @@ var moment = require("moment");
 
 var AppDispatcher = require("../common/AppDispatcher");
 var StoreBase = require("./StoreBase");
+var API = require("./ApiConfig");
 var OrderActions = require("../actions/OrderActions").actionTypes;
 
 var ORDER_LIMIT = 10;
 
 var Orders = function () {
-    this.url = "/orders"
+    this.url = API.ORDERS;
     this.orders = [];
     this.orderStatus = null;
 };
@@ -30,7 +31,7 @@ Orders.prototype = {
 
     getOrder: function (orderId) {
         var order = _.find(this.orders, function (order) {
-            return order.orderId === orderId;
+            return order.orderId == orderId;
         }, this);
         order = _.cloneDeep(order);
         this.format(order);
@@ -61,7 +62,7 @@ Orders.prototype = {
 
     onDataSaved: function (updatedOrder) {
         var order = _.find(this.orders, function (order) {
-            return order.orderId === updatedOrder.orderId;
+            return order.orderId == updatedOrder.orderId;
         }, this);
         _.extend(order, updatedOrder);
     },

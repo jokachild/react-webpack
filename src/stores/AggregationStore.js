@@ -1,10 +1,12 @@
 var _ = require("lodash");
+
 var AppDispatcher = require("../common/AppDispatcher");
 var StoreBase = require("./StoreBase");
+var API = require("./ApiConfig");
 var AggregationActions = require("../actions/AggregationActions").actionTypes;
 
 var Aggregations = function () {
-    this.url = "/aggregations"
+    this.url = API.AGGREGATIONS;
     this.aggregations = [];
 };
 
