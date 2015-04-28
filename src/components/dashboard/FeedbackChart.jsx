@@ -15,7 +15,6 @@ var FeedbackList = React.createClass({
 
     getInitialState: function () {
         return {
-            svgSize: 300,
             chartData: []
         }
     },
@@ -29,7 +28,7 @@ var FeedbackList = React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="chart" ref="chartContainer">
-                        <DonutChart width={this.state.svgSize} height={this.state.svgSize} data={this.state.chartData} />
+                        <DonutChart data={this.state.chartData} />
                     </div>
                     <div className="text-right">
                         <a href="#feedbacks">
@@ -43,17 +42,17 @@ var FeedbackList = React.createClass({
     },
 
     componentDidMount: function () {
-        setTimeout(_.bind(function () {
+        /*setTimeout(_.bind(function () {
             this.setState({
                 svgSize: this.getChartContainerWidth()
             });
             this.resizeHandler = _.throttle(_.bind(this.onResize, this), 500, {leading: false});
             $(window).on("resize", this.resizeHandler);
-        }, this), 0);
+        }, this), 0);*/
     },
 
     componentWillUnmount: function() {
-        $(window).off("resize", this.resizeHandler);
+        //$(window).off("resize", this.resizeHandler);
     },
 
     onDataReceived: function () {
