@@ -47,6 +47,14 @@ var Aggregations = React.createClass({
         };
     },
 
+    componentDidMount: function () {
+        this.updateInterval = setInterval(_.bind(this.requestData, this), 30000);
+    },
+
+    componentWillUnmount: function () {
+        clearInterval(this.updateInterval);
+    },
+
     render: function() {
         var aggregations = _.map(_.keys(this.state.aggregations), this.generateAggregationBlock, this);
         return (
