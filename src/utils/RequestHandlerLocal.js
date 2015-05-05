@@ -31,6 +31,7 @@ var ordersData = [
 ];
 
 var request = function (type, url, data, success, error) {
+    console.log(type.toUpperCase() + " " + url);
     setTimeout(function () {
         switch (true) {
             case url === API.AGGREGATIONS:

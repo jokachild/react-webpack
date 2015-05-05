@@ -43,7 +43,7 @@ var OrderModal = React.createClass({
                                 </div>
                                 <div className="form-group">
                                     <label for="orderAmount" className="col-sm-2 control-label">Amount</label>
-                                    <span id="orderAmount" className="col-sm-10 control-label">{this.state.order.amount}</span>
+                                    <span id="orderAmount" className="col-sm-10 control-label">${this.state.order.amount}</span>
                                 </div>
                                 <div className="form-group">
                                     <label for="orderStatus" className="col-sm-2 control-label">Status</label>

@@ -7,7 +7,7 @@ var DataMixins = require("../../mixins/DataMixins");
 var FeedbackStore = require("../../stores/FeedbackStore");
 var DonutChart = require("./DonutChart.jsx");
 
-var FeedbackList = React.createClass({
+var FeedbackChart = React.createClass({
 
     mixins: [
         DataMixins.eventSubscription(FeedbackStore)
@@ -90,4 +90,4 @@ var FeedbackList = React.createClass({
 
 });
 
-module.exports = FeedbackList;
+module.exports = FeedbackChart;
