@@ -38,7 +38,11 @@ var request = function (type, url, data, success, error) {
                 success(_.cloneDeep(aggregationsData));
                 break;
             case url === API.FEEDBACKS:
-                success(_.cloneDeep(feedbackData));
+                var feedbacks = _.cloneDeep(feedbackData);
+                _.each(feedbacks, function (feedback) {
+                    feedback.score = _.random(1, 5);
+                }, this);
+                success(feedbacks);
                 break;
             case url === API.ORDERS:
                 success(_.cloneDeep(ordersData));
